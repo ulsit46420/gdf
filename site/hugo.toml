@@ -1,18 +1,14 @@
-baseURL = "https://ulsit46420.github.io/gdf/"
+baseURL = "https://example.github.io/dictionary/"
 defaultContentLanguage = "bg"
 title = "EN2BGTERM"
+enableRobotsTXT = true
 
 # This site has no tags/categories — drop the default taxonomies.
 disableKinds = ["taxonomy", "term"]
 
-# Pagefind output and generated data live outside source control.
-[build]
-  [build.buildStats]
-    enable = false
-
 [params]
   description = "Превод на терминология в контекста на информационните технологии — английско-български речник."
-  github = "https://github.com/ulsit46420/gdf"
+  github = "https://github.com/foo/bar"
 
 [sitemap]
   changefreq = "monthly"

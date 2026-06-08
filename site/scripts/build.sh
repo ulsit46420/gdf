@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Full build: parse data -> Hugo build -> Pagefind index.
 #
-# DICT_SRC=https://raw.githubusercontent.com/maturabg/gdf/master/README.md
-# EXAMPLES_SRC=https://raw.githubusercontent.com/maturabg/gdf/master/examples.md
-
+# Source data defaults to the sibling dictionary.md / examples.md in this dev
+# repo. In production (web branch CI) point these at the raw files from `main`:
+#   DICT_SRC=https://raw.githubusercontent.com/<org>/<repo>/main/dictionary.md \
+#   EXAMPLES_SRC=https://raw.githubusercontent.com/<org>/<repo>/main/examples.md \
 #   bash scripts/build.sh
 set -euo pipefail
 
@@ -18,6 +19,6 @@ echo "==> Building site with Hugo"
 hugo --gc --minify --cleanDestinationDir
 
 echo "==> Indexing with Pagefind"
-npx -y pagefind --site public
+npx pagefind --site public
 
 echo "==> Done. Serve ./public over HTTP (Pagefind needs HTTP, not file://)."

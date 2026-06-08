@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - hugo-site
+      - master
   workflow_dispatch: # Allows manual trigger if needed
 
 permissions:
@@ -28,17 +28,23 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.14"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
+          cache: "npm"
+          cache-dependency-path: "site/package-lock.json"
+
+      - name: Install Node Dependencies
+        run: npm ci
+        working-directory: site
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: "latest"
+          hugo-version: "0.162.1"
           extended: true
 
       - name: Configure Pages
