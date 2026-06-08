@@ -1,4 +1,4 @@
-baseURL = "https://example.github.io/dictionary/"
+baseURL = "https://ulsit46420r.github.io/gdf/"
 defaultContentLanguage = "bg"
 title = "EN2BGTERM"
 enableRobotsTXT = true
@@ -8,7 +8,7 @@ disableKinds = ["taxonomy", "term"]
 
 [params]
   description = "Превод на терминология в контекста на информационните технологии — английско-български речник."
-  github = "https://github.com/foo/bar"
+  github = "https://github.com/ulsit46420r/gdf"
 
 [sitemap]
   changefreq = "monthly"
