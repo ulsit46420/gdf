@@ -52,10 +52,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Make script executable and Build Site
-        run: |
-          chmod +x site/scripts/build.sh
-          chmod +x site/scripts/build_data.py
-          ./site/scripts/build.sh
+        run: bash site/scripts/build.sh
 
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3

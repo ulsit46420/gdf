@@ -37,7 +37,7 @@ SKIP_CELL = {"en", "bg", "забележка", "коментар", ""}
 
 def read_source(src: str) -> str:
     if src.startswith(("http://", "https://")):
-        with urllib.request.urlopen(src) as resp:
+        with urllib.request.urlopen(src, timeout=30) as resp:
             return resp.read().decode("utf-8")
     return Path(src).read_text(encoding="utf-8")
 
