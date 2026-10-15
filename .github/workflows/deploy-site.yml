@@ -1,0 +1,78 @@
+name: Deploy dictionary website
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - README.md
+      - examples.md
+      - .github/workflows/deploy-site.yml
+  repository_dispatch:
+    types: [rebuild-site]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out dictionary
+        uses: actions/checkout@v4
+
+      - name: Check out website
+        uses: actions/checkout@v4
+        with:
+          repository: maturabg/gdf-site
+          ref: main
+          path: website
+          token: ${{ secrets.SITE_REPO_TOKEN || github.token }}
+          persist-credentials: false
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: website/site/package-lock.json
+
+      - name: Install search dependency
+        run: npm ci
+        working-directory: website/site
+
+      - name: Set up Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.162.1'
+          extended: true
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build website
+        env:
+          DICT_SRC: ${{ github.workspace }}/README.md
+          EXAMPLES_SRC: ${{ github.workspace }}/examples.md
+        run: bash website/site/scripts/build.sh
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: website/site/public
+
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
