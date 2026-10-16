@@ -33,7 +33,7 @@ jobs:
       - name: Check out website
         uses: actions/checkout@v4
         with:
-          repository: maturabg/gdf-site
+          repository: ulsit46420/gdf-site
           ref: main
           path: website
           token: ${{ secrets.SITE_REPO_TOKEN || github.token }}
